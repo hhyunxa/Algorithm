@@ -2,7 +2,7 @@
 T = int(input())
 for tc in range(1, T+1) :
     N_len, M_len = map(int, input().split())
-    N = input()
+    N = input()  # 문자열은 list를 안해도 인덱스접근이 가능함.
     M = input()
 
     M_idx = 0
