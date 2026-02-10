@@ -1,0 +1,66 @@
+# 1221. [S/W 문제해결 기본] 5일차 - GNS
+T = int(input())
+for tc in range(1, T+1) :
+    numbers_len = input().split()
+    numbers = list(map(str, input().split()))
+
+    nums_str = ["ZRO", "ONE", "TWO", "THR", "FOR", "FIV", "SIX", "SVN", "EGT", "NIN"]
+    num_idx = []
+    for i in numbers :
+        for j in nums_str : 
+            if i == j :
+                idx = nums_str.index(j)
+                num_idx.append(idx)
+
+    new_num_idx = sorted(num_idx)
+    print(f'#{tc}')
+    for k in new_num_idx :
+        print(nums_str[k], end = ' ')
+    print()
+    
+
+# 1215. [S/W 문제해결 기본] 3일차 - 회문1
+for tc in range(1, 11):
+    N = int(input())
+    area = [list(input()) for _ in range(8)]
+
+    '''
+    N이 짝수 or 홀수에 따라 회문을 찾는게 달라짐
+
+    N이 짝수라면 (N%2 = 0)
+    앞 뒤로 N//2만큼 자르고 [0:N//2] = [:N//2-1:-1] 가 되야 회문
+    N이 홀수라면 (N%2 = 1)
+    앞 뒤로 N//2번 인덱스를 기준으로 [0:N//2] = [:N//2:-1] 가 되야 회문
+    > 근데 홀수일 때, 가운데를 포함해서 반전시켜서 비교해도 되니까 조건문을 한 번에 합칠 수 있음
+    > lst[:N//2] == lst[:(N-1)//2:-1]
+    > 홀수일 때는 중간거 포함해서 비교, 짝수일땐 앞 뒤만 비교.
+
+    이제 8x8 영역에서 회문을 찾아야함
+    가로 회문은 for 문 돌면서 찾는다고 친다면,
+    세로 회문은?
+    > 걍 가로 세로 둘 다 돌면서 찾아야될 듯
+    '''
+    num_palin = 0
+
+    # 행 순회 먼저 진행
+    for r in range(8):
+        for c in range(8-N+1):
+            # 행 순회를 진행하면서 원하는 범위, N만큼 슬라이싱을 진행
+            # 슬라이싱한 범위가 회문인지 검사 후 회문이면 +1
+            h_lst = area[r][c:c+N]
+            if h_lst[:N//2] == h_lst[:(N-1)//2:-1]:
+                num_palin += 1
+    
+    # 열 순회 진행
+    for c in range(8):
+        # 열 순회는 행 순회와 반대로 범위를 지정하면 열 순회
+        for r in range(8-N+1):
+            # 행 순회를 할때는 행 마다 리스트로 되어있어서 바로 슬라이싱 후 검사가 됨
+            # 열 순회는 각 요소가 각기 다른 리스트에 있으므로 행 순회처럼 바로 검사가 안됨
+            # 그래서 빈 리스트에 요소를 하나씩 추가해서 그 리스트를 검사
+            # list comprehension으로 길이 줄임
+            v_lst = [area[r+i][c] for i in range(N)]
+            if v_lst[:N//2] == v_lst[:(N-1)//2:-1]:
+                num_palin += 1
+
+    print(f'#{tc} {num_palin}')
