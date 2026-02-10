@@ -79,3 +79,38 @@ for tc in range(1, T+1) :
 
     print(f'#{tc} {answer}')
 
+
+# 백준. DFS와 BFS
+N, M, V = map(int, input().split())
+
+adj_list = [[] for _ in range(N+1)]
+
+for _ in range(M) :
+    a, b = map(int, input().split())
+    adj_list[a].append(b)
+    adj_list[b].append(a)
+
+for i in range(1, N+1) :
+    adj_list[i].sort()    # 정점번호가 작은것부터 방문
+
+visited = [0] * (N+1)
+stack = []
+curr = V
+visited[curr] = 1
+path = [curr]   # 경로를 저장해줌
+
+while True :
+    for w in adj_list[curr] :
+        if visited[w] == 0 :
+            stack.append(curr)
+            curr = w
+            visited[curr] = 1
+            path.append(curr)   # 경로를 저장
+            break
+    else :
+        if stack :
+            curr = stack.pop()
+        else :
+            break
+
+print(*path)   # 경로 출력
