@@ -15,6 +15,8 @@ for tc in range(1, T+1) :
     # DFS 시작
     visited = [0] * (V+1)
     stack = []
+    # stack = [0] * (V+1)
+    # top = -1
 
     curr = S
     visited[curr] = 1
@@ -28,12 +30,16 @@ for tc in range(1, T+1) :
         for i in adj_list[curr] :  # 현재노드에서 갈 수 있는 다음노드들 탐색
             if visited[i] == 0 :   # 다음노드를 방문했는데 0이면,즉 아직 방문 안했던 노드면
                 stack.append(curr) # 다음노드 이동 전에 현재노드를 스택에 저장
+                # top += 1
+                # stack[top] = curr
                 curr = i           # 다음노드로 이동
                 visited[curr] = 1  # 다음노드 visited를 1로 저장. 즉 방문했다고 기록하기
                 break
         else :
-            if stack :
+            if stack :  # if top > -1 :
                 curr = stack.pop()
+                # curr = stack[top]
+                # top -= 1
             else :
                 break
 
@@ -47,10 +53,13 @@ for tc in range(1, T+1) :
 
     # 인접리스트 만들기
     adj_list = [[] for _ in range(100)]
+    # 인접 딕셔너리
+    # adj_list = {}
 
     info = list(map(int, input().split()))  # list를 해줘야함. 
     for i in range(0, E*2, 2) :
         a, b = info[i], info[i+1]           # a와 b를 인덱스로 꺼내기 때문에
+        # adj_list[a] = adj_list.get(a, [])
         adj_list[a].append(b)
 
     # DFS 시작
@@ -78,6 +87,9 @@ for tc in range(1, T+1) :
                 break
 
     print(f'#{tc} {answer}')
+
+
+# 재귀함수로 DFS하기
 
 
 # 백준. DFS와 BFS
@@ -114,3 +126,15 @@ while True :
             break
 
 print(*path)   # 경로 출력
+
+
+# 스택을 top = -1 로 구현하기
+top = -1
+stack = [0] * 100
+curr = ''
+# push
+top += 1
+stack[top] = curr
+# pop
+curr = stack[top]
+top -= 1
