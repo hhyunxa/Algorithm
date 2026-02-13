@@ -28,11 +28,12 @@ for tc in range(1, T+1) :
     dr = [-1, 1, 0, 0]
     dc = [0, 0, -1, 1]
     maxs = 0
+    count = 0
 
     for r in range(N) :
         for c in range(M) :
             if arr[r][c] == 0 :
-                count = 0
+                
                 for i in range(4) :
                     nr = r+dr[i]
                     nc = c+dc[i]
@@ -42,5 +43,6 @@ for tc in range(1, T+1) :
 
                 if count > maxs :
                     maxs = count
+                count = 0
                 
     print(f'#{tc} {maxs}')

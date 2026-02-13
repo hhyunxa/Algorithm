@@ -1,3 +1,4 @@
+# 수업
 # 중위표기법 -> 후위표기법
 stack = [0] * 100
 top = -1
@@ -42,6 +43,7 @@ while top > -1:
 print(postfix)
 
 
+# 실습
 # 1222. [S/W 문제해결 기본] 6일차 - 계산기1 
 T = 10
 for tc in range(1, T+1) :
