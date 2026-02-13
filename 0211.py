@@ -17,7 +17,7 @@ for token in infix:
     # 2. 닫는 괄호인 경우
     elif token == ')':
         while top > -1 and stack[top] != '(':
-            postfix += stack[top] # 현재 top을 더함
+            postfix += stack[top] # pop
             top -= 1
         top -= 1 # '('를 스택에서 버림
         
