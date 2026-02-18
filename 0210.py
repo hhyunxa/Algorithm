@@ -90,7 +90,10 @@ for tc in range(1, T+1) :
 
 
 # 재귀함수로 DFS하기
-
+T = 10
+for tc in range(1, T+1) :
+    _, E = map
+ 
 
 # 백준. DFS와 BFS
 N, M, V = map(int, input().split())

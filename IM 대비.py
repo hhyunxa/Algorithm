@@ -102,6 +102,25 @@ for tc in range(1, T+1) :
 
 
 # 야구팀 짜기
+T = int(input())
+for tc in range(1, T+1) :
+    N, K = map(int, input().split())
+    numbers = list(map(int, input().split()))
+
+    new_numbers = sorted(numbers, reverse=True)  # 6 4 3 2
+    count = 0
+    maxs = 0
+
+    for i in new_numbers :
+        for j in new_numbers :
+            if i - K <= j <= i :  
+                count += 1
+
+        if count > maxs :
+            maxs = count
+        count = 0
+
+    print(f'#{tc} {maxs}')
 '''
 input
 3
