@@ -126,6 +126,46 @@ print(ans)
 
 
 # 실습
+# 5102. [파이썬 S/W 문제해결 기본] 6일차 - 노드의 거리
+from collections import deque
+
+def bfs(S):   # 거리를 리턴
+    q = deque()
+    visited = [0]*(V+1)
+
+    visited[S] = 1
+    q.append(S)
+
+    distance = 0
+
+    while q:
+        for _ in range(len(q)):   # 가는데 걸리는 시간 or 가는 거리정도
+            node = q.popleft()
+            if node == G:
+                return distance
+            for next_node in adj_list[node]:
+                if visited[next_node]:
+                    continue
+                visited[next_node] = 1
+                q.append(next_node) 
+        distance += 1
+
+T = int(input())
+for tc in range(1, T+1):
+    V, E = map(int, input().split())
+
+    adj_list = [[] for _ in range(V+1)]
+
+    for _ in range(E):
+        a, b = map(int, input().split())
+        adj_list[a].append(b)
+        adj_list[b].append(a)
+    S, G = map(int, input().split())
+
+    answer = bfs(S)
+    print(f'#{tc} {answer}')
+
+
 # 1979. 어디에 단어가 들어갈 수 있을까
 T = int(input())
 for tc in range(1, T+1) :
