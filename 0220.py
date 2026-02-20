@@ -91,3 +91,50 @@ enq(4)
 enq(6)
 while last:
     print(deq())
+
+
+# 실습
+# 백준 2667. 단지번호붙이기
+from collections import deque
+
+dr = [-1, 1, 0, 0]
+dc = [0, 0, -1, 1]
+
+def bfs(r, c):
+    q = deque()
+
+    visited[r][c] = 1
+    q.append((r, c))
+
+    count = 1
+
+    while q :
+        r, c = q.popleft()
+
+        for d in range(4):
+            nr = r + dr[d]
+            nc = c + dc[d]
+
+            if nr<0 or nr>=N or nc<0 or nc>=N:
+                continue
+            if arr[nr][nc] == 0 or visited[nr][nc]:
+                continue
+            visited[nr][nc] = 1
+            q.append((nr, nc))
+            count += 1
+
+    return count
+
+N = int(input())
+arr = [list(map(int, input())) for _ in range(N)]
+visited = [[0]*N for _ in range(N)]
+ans_list = []
+
+for i in range(N):
+        for j in range(N):
+            if arr[i][j] == 1 and visited[i][j] == 0:
+                ans_list.append(bfs(i, j))
+
+print(len(ans_list))
+for counts in sorted(ans_list):
+    print(counts)
