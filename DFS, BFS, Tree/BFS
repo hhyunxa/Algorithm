@@ -11,16 +11,20 @@ def bfs(S):   # 거리를 리턴
     distance = 0
 
     while q:
-        for _ in range(len(q)):   # 가는데 걸리는 시간 or 가는 거리정도
+        for _ in range(len(q)):   # 현재 같은 층에 있는 얘들을 다 처리할 때까지
             node = q.popleft()
+
             if node == G:
                 return distance
+            
             for next_node in adj_list[node]:
                 if visited[next_node]:
                     continue
+
                 visited[next_node] = 1
                 q.append(next_node) 
-        distance += 1
+                
+        distance += 1   # 한 층을 다 돌았으니 거리를 1 늘림
 
 T = int(input())
 for tc in range(1, T+1):
@@ -47,43 +51,42 @@ dc = [0, 0, -1, 1]
 def bfs(r, c):
     q = deque()
     visited = [[0]*16 for _ in range(16)]
-    
+
     visited[r][c] = 1
     q.append((r, c))
-    
-    # 큐가 빌때까지 돌아라
+
     while q:
-        r, c = q.popleft()   # 도달이 가능한지 아닌지
+        r, c = q.popleft()
 
-        for dir in range(4):
-            nr = r + dr[dir]
-            nc = c + dc[dir]
+        for d in range(4):
+            nr = r + dr[d]
+            nc = c + dc[d]
 
-            if nr < 0 or nr >= 16 or nc < 0 or nc >= 16:
+            if 0>nr or nr>=16 or 0>nc or nc>=16:
                 continue
-            if graph[nr][nc] == 1 or visited[nr][nc]:
+            if visited[nr][nc] or arr[nr][nc] == 1:
                 continue
-            if graph[nr][nc] == 3:
+            if arr[nr][nc] == 3:
                 return 1
             
             visited[nr][nc] = 1
             q.append((nr, nc))
 
-    # 출구를 발견하지 못했을 때
     return 0
 
 T = 10
 for tc in range(1, T+1):
     input()
-    graph = [list(map(int, input())) for _ in range(16)]
+    arr = [list(map(int, input())) for _ in range(16)]
+
     r, c, goal_r, goal_c = -1, -1, -1, -1
 
     for i in range(16):
         for j in range(16):
-            if graph[i][j] == 2:
+            if arr[i][j] == 2:
                 r = i
                 c = j
-            elif graph[i][j] == 3:
+            elif arr[i][j] == 3:
                 goal_r = i
                 goal_c = j
 
@@ -118,7 +121,7 @@ def bfs(r, c):
                 continue
             visited[nr][nc] = 1
             q.append((nr, nc))
-            count += 1
+            count += 1   # 새로운 집을 찾을 때마다 1씩 증가
 
     return count
 
