@@ -147,7 +147,7 @@ def bfs(r, c):
 
     count = 1
 
-    while q :
+    while q:
         r, c = q.popleft()
 
         for d in range(4):
@@ -156,24 +156,28 @@ def bfs(r, c):
 
             if nr<0 or nr>=N or nc<0 or nc>=N:
                 continue
-            if arr[nr][nc] == 0 or visited[nr][nc]:
+            if visited[nr][nc] or arr[nr][nc] == 0:
                 continue
+            if arr[nr][nc] == 1:
+                count += 1
+
             visited[nr][nc] = 1
             q.append((nr, nc))
-            count += 1   # 새로운 집을 찾을 때마다 1씩 증가
 
-    return count
+    sums.append(count)
 
 N = int(input())
 arr = [list(map(int, input())) for _ in range(N)]
-visited = [[0]*N for _ in range(N)]
-ans_list = []
 
+visited = [[0] * N for _ in range(N)]
+sums = []
 for i in range(N):
-        for j in range(N):
-            if arr[i][j] == 1 and visited[i][j] == 0:
-                ans_list.append(bfs(i, j))
+    for j in range(N):
+        if arr[i][j] == 1 and visited[i][j] == 0:
+            r = i
+            c = j
+            answer = bfs(r, c)
 
-print(len(ans_list))
-for counts in sorted(ans_list):
-    print(counts)
+print(len(sums))
+for a in sums:
+    print(a)
