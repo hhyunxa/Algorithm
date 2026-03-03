@@ -30,6 +30,12 @@ for tc in range(1, T+1):
     
     print(f'#{tc} {count}')
 
+
+# 우주 괴물 여러마리 ver.
+if arr[nr][nc] == 0:
+    arr[nr][nc] = 3
+
+
 # 백준 2667. 단지번호붙이기
 from collections import deque
 
