@@ -1,4 +1,4 @@
-# 23795. 우주 괴물
+# 1
 T = int(input())
 for tc in range(1, T+1):
     N = int(input())
@@ -19,7 +19,7 @@ for tc in range(1, T+1):
                         if arr[nr][nc] == 1:
                             break
                         if arr[nr][nc] == 0:
-                            arr[nr][nc] = 1
+                            arr[nr][nc] = 3
                         nr = nr + dr[d]
                         nc = nc + dc[d]
     count = 0
@@ -31,12 +31,7 @@ for tc in range(1, T+1):
     print(f'#{tc} {count}')
 
 
-# 우주 괴물 여러마리 ver.
-if arr[nr][nc] == 0:
-    arr[nr][nc] = 3
-
-
-# 백준 2667. 단지번호붙이기
+# 2
 from collections import deque
 
 dr = [-1, 1, 0, 0]
@@ -44,11 +39,11 @@ dc = [0, 0, -1, 1]
 
 def bfs(r, c):
     q = deque()
-
     visited[r][c] = 1
     q.append((r, c))
 
-    count = 1
+    size = 1   # 칸의 개수
+    gold = arr[r][c]   # 금의 총량
 
     while q:
         r, c = q.popleft()
@@ -61,31 +56,41 @@ def bfs(r, c):
                 continue
             if visited[nr][nc] or arr[nr][nc] == 0:
                 continue
-            if arr[nr][nc] == 1:
-                count += 1
-
+            if arr[nr][nc] != 0 :
+                size += 1
+                gold += arr[nr][nc]
             visited[nr][nc] = 1
             q.append((nr, nc))
 
-    sums.append(count)
+    sums.append((gold, size))
 
-N = int(input())
-arr = [list(map(int, input())) for _ in range(N)]
+T = int(input())
+for tc in range(1, T=1):
+    N = int(input())
+    arr = [list(map(int, input().split()))]
+    visited = [[0]*N for _ in range(N)]
 
-visited = [[0] * N for _ in range(N)]
-sums = []
-for i in range(N):
-    for j in range(N):
-        if arr[i][j] == 1 and visited[i][j] == 0:
-            r = i
-            c = j
-            answer = bfs(r, c)
+    sums = []   
 
-print(len(sums))
-for a in sums:
-    print(a)
+    for i in range(N):
+        for j in range(N):
+            if arr[i][j] != 0 and visited[i][j] == 0:
+                r = i
+                c = j
+                bfs(r, c)
 
+    ans_gold = sums[0][0]
+    ans_size = sums[0][1]
 
-# 스택의 특성과 과정 -> 후입선출 LIFO
-# 큐의 특성과 과정 -> 선입선출 FIFO
-# 트리 -> 전위, 중위, 후위 순회, 트리의 특성
+    for i in range(1, len(sums)):
+        curr_gold = sums[i][0]
+        curr_size = sums[i][1]
+
+        if curr_gold > ans_gold:
+            ans_gold = curr_gold
+            ans_size = curr_size
+        elif curr_gold == ans_gold:
+            if curr_size < ans_size:
+                ans_size = curr_size
+
+    print(f"#{tc} {ans_gold} {ans_size}")
