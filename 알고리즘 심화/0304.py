@@ -45,4 +45,4 @@ for tc in range(1, T+1):
 
     comb(0, 0)
 
-    print(f'#{tc} ')
+    print(f'#{tc} {answer}')
