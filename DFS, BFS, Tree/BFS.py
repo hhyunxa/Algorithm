@@ -1,18 +1,106 @@
-# 백준 7576. 토마토
+# 백준 2573. 빙산
+'''
+덩어리개수세고 덩어리 조건 확인하고 빙산녹이기
+덩어리개수세기는 단지번호 붙이기 (BFS)
+'''
 from collections import deque
 
 dr = [-1, 1, 0, 0]
 dc = [0, 0, -1, 1]
 
-def bfs(tomato_1):
+def bfs_check(r, c):   # 덩어리 수 세기. 즉, 단지번호 붙이기랑 비슷
+    q = deque()
+    visited[r][c] = 1
+    q.append((r, c))
+
+    while q:
+        r, c = q.popleft()
+        for d in range(4):
+            nr = r + dr[d]
+            nc = c + dc[d]
+            if nr<0 or nr>=N or nc<0 or nc>=M:
+                continue
+            if arr[nr][nc] == 0 or visited[nr][nc]:
+                continue
+            if arr[nr][nc] != 0:
+                visited[nr][nc] = 1
+                q.append((nr, nc))
+
+def bfs_melt(start):
+    melt_info = []   # 동시에 녹이기 위해 (좌표, 녹을 높이)를 임시 저장하는 리스트
+
+    for r, c in start:
+        sea_count = 0
+        for d in range(4):
+            nr = r + dr[d]
+            nc = c + dc[d]
+            if nr<0 or nr>=N or nc<0 or nc>=M:
+                continue
+            if arr[nr][nc] == 0:
+                sea_count += 1   # 주변 바다 개수 세기
+        melt_info.append((r, c, sea_count))
+
+    new_start = []   # 녹은 후에도 살아남은 빙산 좌표
+    for r, c, sea_count in melt_info:   # 빙산 녹이기
+        if arr[r][c] <= sea_count:   
+            arr[r][c] = 0
+        else:
+            arr[r][c] -= sea_count
+
+        if arr[r][c] > 0:   # 녹은 후에도 살아남은 빙산 좌표 new_start에 저장하기
+            new_start.append((r, c))
+
+    return new_start
+
+N, M = map(int, input().split())
+arr = [list(map(int, input().split())) for _ in range(N)]
+
+start = []   # 초기빙산의 좌표를 담을 리스트
+for r in range(N):
+    for c in range(M):
+        if arr[r][c] > 0:
+            start.append((r, c))
+
+year = 0
+while True:
+    visited = [[0]*M for _ in range(N)]
+    cnt = 0   # 덩어리 개수
+
+    for r, c in start:
+        if visited[r][c] == 0:   # 남아 있는 빙산 중에서
+            bfs_check(r, c)   # 한 덩어리를 돌면서 방문표시
+            cnt += 1   # 덩어리 수 세기
+
+    if cnt >= 2:
+        print(year)
+        break
+    if cnt == 0:
+        print(0)
+        break
+
+    start = bfs_melt(start)   # 빙산 녹이기
+    year += 1   # 1년 증가
+
+
+# 백준 7576. 토마토
+'''
+초기토마토의 r, c를 start에 저장하고 시작
+동시확산이니까 len(q)를 이용해서 bfs하기
+'''
+from collections import deque
+
+dr = [-1, 1, 0, 0]
+dc = [0, 0, -1, 1]
+
+def bfs(start):
     q = deque()
     visited = [[0]*M for _ in range(N)]
 
-    for r, c in tomato_1:
+    for r, c in start:
         visited[r][c] = 1
         q.append((r, c))
 
-    distance = 0
+    date = 0
 
     while q:
         for _ in range(len(q)):
@@ -21,38 +109,36 @@ def bfs(tomato_1):
             for d in range(4):
                 nr = r + dr[d]
                 nc = c + dc[d]
-    
+
                 if nr<0 or nr>=N or nc<0 or nc>=M:
                     continue
                 if visited[nr][nc] or arr[nr][nc] == -1:
                     continue
                 if arr[nr][nc] == 0:
                     arr[nr][nc] = 1
-                visited[nr][nc] = 1
-                q.append((nr, nc))
-
+                    visited[nr][nc] = 1
+                    q.append((nr, nc))
+        
         if q:
-            distance += 1
-    return distance
+            date += 1
+    return date
 
 M, N = map(int, input().split())
 arr = [list(map(int, input().split())) for _ in range(N)]
 
-tomato_1 = []
-
+start = []
 for r in range(N):
     for c in range(M):
         if arr[r][c] == 1:
-            tomato_1.append((r, c))
+            start.append((r, c))
+answer = bfs(start)
 
-answer = bfs(tomato_1)
-
-for i in arr:
-    if 0 in i:
+for a in arr:
+    if 0 in a:
         print(-1)
         break
 else:
-    print(answer)
+    print(answer)  
 
 
 # 백준 2667. 단지번호붙이기
