@@ -26,7 +26,7 @@ def dfs(core_cnt, wire_cnt, idx):
             nr += dr[d]
             nc += dc[d]
             tmp_wire_cnt += 1   # 와이어 길 하나 증가
-        else:   # break 없이 끝까지 왔다면 
+        else:   # break 없이 끝까지 왔다면, 즉, 와이어 길을 끝까지 다 가면
             possible = True   # 연결 가능
         
         if possible:
@@ -36,7 +36,7 @@ def dfs(core_cnt, wire_cnt, idx):
                 tc += dc[d]
                 visited[tr][tc] = 1   # 방문 표시. 즉, 전선 깔기
 
-            dfs(core_cnt+1, wire_cnt+tmp_wire_cnt, idx+1)
+            dfs(core_cnt+1, wire_cnt+tmp_wire_cnt, idx+1)   # 전선 깐 상태에서 다음 코어 이동
 
             tr, tc = r, c
             for _ in range(tmp_wire_cnt):
