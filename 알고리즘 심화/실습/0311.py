@@ -1,4 +1,4 @@
-# swea 1767. [SW Test 샘플문제] 프로세서 연결하기
+# 1767. [SW Test 샘플문제] 프로세서 연결하기
 def dfs(core_cnt, wire_cnt, idx):   # core_cnt > 연결된 코어의 수 / wire_cnt > 낄린 와이어의 수 / idx > 탐색중인 코어
     global max_cores, min_wires
 
@@ -67,6 +67,3 @@ for tc in range(1, T+1):
 
     dfs(0, 0, 0)
     print(f'#{tc} {min_wires}')
-
-
-# 백준 17472. 다리 만들기 2
