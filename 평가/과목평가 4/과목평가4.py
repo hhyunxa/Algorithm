@@ -18,3 +18,27 @@ format(int('31ndfDK103a1321', 2), 'X')
 
 :warning: 서술형에서 감점이 많이 발생하고 있으므로 충분히 준비하기 바랍니다.
 '''
+# 1.
+
+
+# 2.
+def dfs(idx, sum_h):
+    global ans
+    if idx == N:
+        if sum_h >= B:
+            if ans > sum_h:
+                ans = sum_h
+        return
+    
+    dfs(idx + 1, sum_h + H[idx])
+
+    dfs(idx + 1, sum_h)
+
+T = int(input())
+for tc in range(1, T+1):
+    N, B = map(int, input().split())
+    H = list(map(int, input().split()))
+
+    ans = 99999999
+    dfs(0, 0)
+    print(f'#{tc} {ans - B}')
